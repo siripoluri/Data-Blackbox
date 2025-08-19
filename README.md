@@ -1,100 +1,95 @@
-# Data Blackbox
-Data Blackbox 
+**Privacy-first browser extension and analytics dashboard** that reveals how websites track your data.  
+The project captures outgoing network requests in real time, classifies domains as **first-party vs third-party**, and visualizes them in a local dashboard.
 
-Privacy-first browser extension + analytics dashboard that reveals how websites track your data.
-The project captures outgoing network requests in real-time, classifies domains as first-party vs third-party, and visualizes them in a local dashboard.
+Built as a showcase of **full-stack engineering and privacy/security technology**.
 
-Built as a showcase of full-stack engineering and privacy/security tech.
+---
 
-Features: 
+## Features
 
-Browser Extension (Chrome/Firefox, MV3)
+### Browser Extension (Chrome/Firefox, MV3)
+- Captures outgoing requests (**fetch**, **XHR**, **WebSocket**, **main_frame**)
+- Deduplicates requests to reduce noise
+- Sends anonymized events to a local backend
 
-Captures all outgoing requests (fetch, XHR, WebSocket, main_frame)
+### Local Backend (Express + SQLite)
+- Stores unique domains with hit counts
+- Classifies requests as **first-party** or **third-party**
+- Exposes APIs for dashboards (`/domains`, `/event`)
 
-Deduplicates requests to avoid noise
+### Future Extensions
+- Next.js dashboard with interactive Sankey diagrams  
+- One-click block/allow rules  
+- Packaging for Chrome Web Store  
 
-Sends anonymized events to a local backend
+---
 
-Local Backend (Express + SQLite)
+## Tech Stack
 
-Stores unique domains with hit counts
+- **Extension**: TypeScript, Chrome WebExtension APIs (MV3)  
+- **Backend**: Node.js, Express 5, SQLite (`better-sqlite3`)  
+- **Database**: Lightweight local `data.db`  
+- **Planned Dashboard**: Next.js + D3.js  
 
-Classifies requests as first-party or third-party
+---
 
-Exposes APIs for dashboards (/domains, /event)
+## Setup Instructions
 
-Future Extensions
-
-Next.js dashboard with interactive Sankey diagrams
-
-One-click block/allow rules
-
-Packaging for Chrome Web Store
-
-🛠️ Tech Stack
-
-Extension: TypeScript, Chrome WebExtension APIs (MV3)
-
-Backend: Node.js, Express 5, SQLite (better-sqlite3)
-
-Database: Lightweight local data.db
-
-Planned Dashboard: Next.js + D3.js
-
-Setup Instructions
-1. Clone Repository
+### 1. Clone Repository
+```bash
 git clone https://github.com/<your-username>/data-blackbox.git
 cd data-blackbox
+````
 
-2. Backend (Server)
+### 2. Backend (Server)
+
+```bash
 cd server
 npm install
 npm run start
+```
 
+Server runs at **[http://localhost:3001](http://localhost:3001)**
 
-Server will run at http://localhost:3001
+**Endpoints**
 
-Endpoints:
+* `POST /event` → log a domain
+* `GET /domains` → fetch all stored domains
 
-POST /event → log a domain
+### 3. Extension (Chrome/Firefox)
 
-GET /domains → fetch all stored domains
-
-3. Extension (Chrome/Firefox)
+```bash
 cd extension
 npm install
 npm run build
-
+```
 
 Then in Chrome:
 
-Open chrome://extensions
+1. Open **chrome://extensions**
+2. Enable **Developer Mode**
+3. Click **Load unpacked** → select the `extension/` folder
 
-Enable Developer Mode
+---
 
-Click Load unpacked → select the extension/ folder
+## How It Works
 
-How It Works
+1. Browse any website
+2. The extension intercepts outgoing requests
+3. Each domain is recorded locally:
 
-You browse any website.
+   * **First-party** = same site being visited
+   * **Third-party** = trackers, CDNs, ads, analytics
+4. The backend aggregates counts and exposes APIs
+5. (Planned) Dashboard visualizes the data as an **interactive Sankey map**
 
-The extension intercepts outgoing requests.
+---
 
-Each domain is recorded locally:
+## Roadmap
 
-First-party = same site you’re visiting
+* Build **Next.js dashboard** with D3 Sankey visualization
+* Implement **allow/block rules** with Supabase
+* Package for **Chrome Web Store**
 
-Third-party = trackers, CDNs, ads, analytics
+---
 
-The backend aggregates counts and exposes APIs.
-
-(Planned) Dashboard visualizes the data as an interactive Sankey map.
-
-Roadmap
-
- Build Next.js dashboard with D3 Sankey visualization
-
- Implement allow/block rules synced via Supabase
-
- Package for Chrome Web Store
