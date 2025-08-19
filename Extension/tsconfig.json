@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",           // modern JS
+    "module": "ESNext",           // for bundlers
+    "rootDir": "src",             // where your .ts files live
+    "outDir": "dist",             // compiled .js goes here
+    "lib": ["DOM", "ES2020"],     // DOM APIs + modern JS
+    "strict": true
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,15 @@
+# Node dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Local database
+server/data.db
+
+# OS / Editor files
+.DS_Store
+.vscode/
